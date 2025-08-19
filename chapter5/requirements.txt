@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+streamlit
+streamlit-chat
+python-dotenv
+mcp
+sentence-transformers>=2.7.0
+chromadb
+fastapi-mcp
+google-genai
