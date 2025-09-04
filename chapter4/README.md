@@ -59,5 +59,5 @@ flowchart TD
 ## Resources
 - RAG overview: https://www.coursera.org/learn/retrieval-augmented-generation-rag
 - Chroma docs: https://docs.trychroma.com/docs/overview/getting-started
-- Sentence Transformers: https://www.sbert.net/
+- Google AI for Developers - Embeddings: https://ai.google.dev/gemini-api/docs/embeddings
 - Similarity search basics: https://towardsdatascience.com/what-is-cosine-similarity-how-to-compare-text-and-images-in-python-d2bb6e411ef0/

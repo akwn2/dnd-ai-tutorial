@@ -1,6 +1,10 @@
 """This script sets up the Chroma DB with the sample text."""
 import chromadb
-from sentence_transformers import SentenceTransformer
+from google import genai
+import os
+
+from backend.services.llm import client
+
 
 def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200) -> list[str]:
     """Splits text into overlapping chunks."""
@@ -19,13 +23,13 @@ def setup_rag():
     """Sets up the RAG chain by creating and populating a Chroma DB."""
     try:
         # Connect to the Chroma DB service
-        client = chromadb.HttpClient(host="chroma", port=8000)
+        db_client = chromadb.HttpClient(host="chroma", port=8000)
 
         # Create an embedding function
-        embedding_function = SentenceTransformer("all-MiniLM-L6-v2")
+        embedding_model = "models/embedding-001"
 
         # Get or create the collection
-        collection = client.get_or_create_collection(name="dnd_lore")
+        collection = db_client.get_or_create_collection(name="dnd_lore")
 
         # Load the sample text
         with open("sample.txt", "r", encoding="utf-8") as f:
@@ -35,9 +39,12 @@ def setup_rag():
         chunks = chunk_text(sample_text)
 
         # Add the chunks to the collection
-        # Note: The sentence-transformer library can handle the embedding for us.
+        response = client.models.embed_content(
+            model=embedding_model,
+            contents=chunks,
+        )
         collection.add(
-            embeddings=embedding_function.encode(chunks).tolist(),
+            embeddings=[embedding.values for embedding in response.embeddings],
             documents=chunks,
             ids=[f"chunk_{i}" for i, _ in enumerate(chunks)],
         )

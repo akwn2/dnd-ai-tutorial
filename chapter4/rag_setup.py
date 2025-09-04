@@ -1,6 +1,6 @@
 """This script sets up the Chroma DB with the sample text."""
 import chromadb
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def setup_rag():
@@ -10,7 +10,7 @@ def setup_rag():
         client = chromadb.HttpClient(host="chroma", port=8000)
 
         # Create an embedding function
-        embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
         # Get or create the collection
         collection = client.get_or_create_collection(
